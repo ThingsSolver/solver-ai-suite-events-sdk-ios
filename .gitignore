@@ -1,0 +1,11 @@
+.DS_Store
+*/.DS_Store
+*.pbxuser
+xcuserdata/
+profile
+DerivedData
+*.xccheckout
+*.xcworkspace
+Package.resolved
+/build
+xcuserdata/
