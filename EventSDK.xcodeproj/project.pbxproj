@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6C40DD872C2AFAF2006726C1 /* InternalApiObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C40DD862C2AFAF2006726C1 /* InternalApiObject.swift */; };
+		6C40DD892C2C38F9006726C1 /* InternalEventArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C40DD882C2C38F9006726C1 /* InternalEventArguments.swift */; };
 		6C92CBC32C1AF9390029F5C7 /* InternalNetworkUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C92CBC22C1AF9390029F5C7 /* InternalNetworkUtility.swift */; };
 		6C92CBC52C1AFDF20029F5C7 /* InternalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C92CBC42C1AFDF20029F5C7 /* InternalRepository.swift */; };
 		6CD6B5B22C19E7E2001426BF /* EventSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD6B5A92C19E7E2001426BF /* EventSDK.framework */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C40DD862C2AFAF2006726C1 /* InternalApiObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalApiObject.swift; sourceTree = "<group>"; };
+		6C40DD882C2C38F9006726C1 /* InternalEventArguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalEventArguments.swift; sourceTree = "<group>"; };
 		6C92CBC22C1AF9390029F5C7 /* InternalNetworkUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalNetworkUtility.swift; sourceTree = "<group>"; };
 		6C92CBC42C1AFDF20029F5C7 /* InternalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalRepository.swift; sourceTree = "<group>"; };
 		6CD6B5A92C19E7E2001426BF /* EventSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EventSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				6CD6B5CD2C1AE9AD001426BF /* InternalObject.swift */,
+				6C40DD862C2AFAF2006726C1 /* InternalApiObject.swift */,
+				6C40DD882C2C38F9006726C1 /* InternalEventArguments.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -276,11 +282,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C40DD872C2AFAF2006726C1 /* InternalApiObject.swift in Sources */,
 				6C92CBC52C1AFDF20029F5C7 /* InternalRepository.swift in Sources */,
 				6C92CBC32C1AF9390029F5C7 /* InternalNetworkUtility.swift in Sources */,
 				6CD6B5CA2C19EB0C001426BF /* Object.swift in Sources */,
 				6CD6B5D02C1AEBDA001426BF /* InternalDataUtility.swift in Sources */,
 				6CD6B5CC2C1AE99F001426BF /* Event.swift in Sources */,
+				6C40DD892C2C38F9006726C1 /* InternalEventArguments.swift in Sources */,
 				6CD6B5C22C19E8ED001426BF /* EventSDK.swift in Sources */,
 				6CD6B5CE2C1AE9AD001426BF /* InternalObject.swift in Sources */,
 			);

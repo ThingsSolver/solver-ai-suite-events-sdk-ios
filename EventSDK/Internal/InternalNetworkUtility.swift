@@ -14,13 +14,19 @@ final class InternalNetworkUtility: NetworkUtility {
         static let TimeoutIntervalForRequest: TimeInterval = 30
         
         struct HeaderKeys {
-            static let ApiKey: String = "x-api-key"
+            static let XApiKey: String = "x-api-key"
+            static let BearerAuthorization: String = "Authorization"
             static let TenantId: String = "tenant_id"
+            static let ContentType: String = "Content-Type"
+        }
+        
+        struct HeaderValues {
+            static let ApplicationJson: String = "application/json"
         }
     }
     
     enum Endpoint: String {
-        case collect = "/collect"
+        case bulk = "/bulk"
     }
     
     private let jsonEncoder: JSONEncoder = JSONEncoder()
@@ -29,20 +35,29 @@ final class InternalNetworkUtility: NetworkUtility {
     var baseURL: URL?
     var apiKey: String?
     
+    private var authorizationType: AuthorizationType?
+    
     private init() {
         self.jsonEncoder.dateEncodingStrategy = .iso8601
         self.jsonEncoder.outputFormatting = .withoutEscapingSlashes
     }
     
-    func configure(tenantID: String, baseURL: URL, apiKey: String) {
+    func configure(tenantID: String, baseURL: URL, authorizationType: AuthorizationType, apiKey: String) {
         self.tenantID = tenantID
         self.baseURL = baseURL
         self.apiKey = apiKey
+        self.authorizationType = authorizationType
     }
     
-    func post(data: [InternalObject]) async throws {
+    func post(data: InternalApiObject) async throws {
         if let baseURL = self.baseURL {
-            let request: Request = Request(scheme: .https, baseUrl: baseURL, endpoint: .collect, method: .post, headers: [Constants.HeaderKeys.ApiKey: self.apiKey ?? "", Constants.HeaderKeys.TenantId: self.tenantID ?? ""], body: data)
+            let requestHeaders: [String: String] = [
+                Constants.HeaderKeys.ContentType: Constants.HeaderValues.ApplicationJson,
+                Constants.HeaderKeys.TenantId: self.tenantID ?? "",
+                (authorizationType == .Bearer ? Constants.HeaderKeys.BearerAuthorization : Constants.HeaderKeys.XApiKey): (authorizationType == .Bearer ? "Bearer \(apiKey ?? "")" : apiKey ?? "")
+            ]
+            
+            let request: Request = Request(baseUrl: baseURL, endpoint: .bulk, method: .post, headers: requestHeaders, body: data)
             _ = try await send(request)
         } else {
             throw RequestError.invalidURL
@@ -50,17 +65,7 @@ final class InternalNetworkUtility: NetworkUtility {
     }
     
     private func send(_ request: Request) async throws -> Data {
-        var urlComponents: URLComponents = URLComponents()
-        urlComponents.scheme = request.scheme.rawValue
-        urlComponents.host = request.baseUrl.absoluteString
-        urlComponents.path = request.endpoint.rawValue
-        
-       
-        guard let url = urlComponents.url else {
-            throw RequestError.invalidURL
-        }
-        
-        var urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: request.baseUrl.appending(path: request.endpoint.rawValue))
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
         
@@ -101,21 +106,30 @@ extension InternalNetworkUtility {
         case put = "PUT"
     }
 
-    enum Scheme: String {
-        case http = "http"
-        case https = "https"
-    }
-
     enum RequestError: Error {
-        case invalidURL // Unable to construct URL from Endpoint
-        case noResponse // Got empty response from server
-        case unexpectedStatusCode // Got unexpected reponse code from server
-        case badRequest // Server returned status 400, for example a request withot all required form data was made
-        case unauthorized // Got unauthorized response from server
+        case invalidURL
+        case noResponse
+        case unexpectedStatusCode
+        case badRequest
+        case unauthorized
+        
+        public var localizedDescription: String {
+            switch self {
+            case .invalidURL:
+                return "Unable to construct URL from Endpoint"
+            case .noResponse:
+                return "Got empty response from server"
+            case .unexpectedStatusCode:
+                return "Got unexpected reponse code from server"
+            case .badRequest:
+                return "Server returned status 400, for example a request withot all required form data was made"
+            case .unauthorized:
+                return "Got unauthorized response from server"
+            }
+        }
     }
 
     struct Request {
-        let scheme: Scheme
         let baseUrl: URL
         let endpoint: Endpoint
         let method: RequestMethod
@@ -125,7 +139,7 @@ extension InternalNetworkUtility {
 }
 
 protocol NetworkUtility {
-    func configure(tenantID: String, baseURL: URL, apiKey: String)
-    func post(data: [InternalObject]) async throws
+    func configure(tenantID: String, baseURL: URL, authorizationType: AuthorizationType, apiKey: String)
+    func post(data: InternalApiObject) async throws
 }
 

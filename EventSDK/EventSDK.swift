@@ -7,7 +7,12 @@
 
 import Foundation
 
-public final class EventSDK {
+public enum AuthorizationType {
+    case Bearer
+    case XApiKey
+}
+
+public final class EventSDKFramework {
     /// Default constant values
     public struct Constants {
         /// The default number of maximum events collected before sending, default is 30.
@@ -42,11 +47,12 @@ public final class EventSDK {
     ///   - apiKey: The API key used for authentication
     ///   - numberOfMaxEventsCollectedBeforeSending: The maximum number of events to collect before sending. Default is `Constants.DefaultNumberOfMaxEventsCollectedBeforeSending`.
     ///   - eventSendInterval: The interval at which events are sent. Default is `Constants.DefaultEventSendInterval`.
-    public static func initialize(tenantID: String, baseUrl: URL, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval) {
+    public static func initialize(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval) {
         
         InternalDataUtility.shared.configure(
             tenantID: tenantID,
             baseUrl: baseUrl,
+            authorizationType: authorizationType,
             apiKey: apiKey,
             numberOfMaxEventsCollectedBeforeSending: numberOfMaxEventsCollectedBeforeSending,
             eventSendInterval: eventSendInterval,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class InternalDataUtility: DataUtility {
     static let shared: DataUtility = InternalDataUtility()
@@ -22,11 +23,11 @@ final class InternalDataUtility: DataUtility {
     
     private var internalSessionId: String = UUID().uuidString
     private var sessionSetDate: Date = Date()
-    private var sessionIDRegenerateTimeInverval: TimeInterval = EventSDK.Constants.DefaultSessionIDRegenerateTimeInverval
+    private var sessionIDRegenerateTimeInverval: TimeInterval = EventSDKFramework.Constants.DefaultSessionIDRegenerateTimeInverval
     
     // MARK: Data collection variables
     private var dataSendingTimer: Timer?
-    private var numberOfMaxEventsCollectedBeforeSending: Int = EventSDK.Constants.DefaultNumberOfMaxEventsCollectedBeforeSending
+    private var numberOfMaxEventsCollectedBeforeSending: Int = EventSDKFramework.Constants.DefaultNumberOfMaxEventsCollectedBeforeSending
     
     private var collectedEvents: [InternalObject] = [] {
         didSet {
@@ -41,14 +42,16 @@ final class InternalDataUtility: DataUtility {
         self.collectedEvents = InternalRepository.events
     }
     
-    func configure(tenantID: String, baseUrl: URL, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval) {
+    func configure(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval) {
         self.numberOfMaxEventsCollectedBeforeSending = numberOfMaxEventsCollectedBeforeSending
         self.sessionIDRegenerateTimeInverval = sessionIDRegenerateTimeInverval
         
-        InternalNetworkUtility.shared.configure(tenantID: tenantID, baseURL: baseUrl, apiKey: apiKey)
+        InternalNetworkUtility.shared.configure(tenantID: tenantID, baseURL: baseUrl, authorizationType: authorizationType, apiKey: apiKey)
+        
+        UIDevice.current.isBatteryMonitoringEnabled = true // Enables battery monitoring
         
         self.dataSendingTimer?.invalidate()
-        self.dataSendingTimer = Timer(timeInterval: eventSendInterval, repeats: true, block: { [weak self] _ in
+        self.dataSendingTimer = Timer.scheduledTimer(withTimeInterval: eventSendInterval, repeats: true, block: { [weak self] _ in
             guard let strongSelf = self, strongSelf.collectedEvents.isEmpty == false else { return }
             
             strongSelf.sendEventsToServer()
@@ -64,7 +67,7 @@ final class InternalDataUtility: DataUtility {
         let applicationName: String = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
         let applicationVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
         
-        let internalObject: InternalObject = InternalObject(publicObject: object, timestamp: Date(), sessionID: self.sessionId, applicationName: applicationName, applicationVersion: applicationVersion)
+        let internalObject: InternalObject = InternalObject(publicObject: object, timestamp: Date(), sessionID: self.sessionId, applicationName: applicationName, applicationVersion: applicationVersion, clientRequestId: UUID().uuidString, batteryLevel: UIDevice.current.batteryLevel)
         
         self.collectedEvents.append(internalObject)
         InternalRepository.events = self.collectedEvents
@@ -85,20 +88,15 @@ final class InternalDataUtility: DataUtility {
             do {
                 // "Snapshot" events that are going to be sent
                 let eventsSnapshot: [InternalObject] = strongSelf.collectedEvents
-                try await InternalNetworkUtility.shared.post(data: eventsSnapshot)
+                try await InternalNetworkUtility.shared.post(data: InternalApiObject(events: eventsSnapshot))
                 
                 // It's possible that new events came while snapshotted events were being sent
-                var eventsToSend: [InternalObject] = []
-                for event in strongSelf.collectedEvents {
-                    if eventsSnapshot.contains(event) == false {
-                        eventsToSend.append(event)
-                    }
-                }
+                let eventsToSend: [InternalObject] = strongSelf.collectedEvents.filter({ eventsSnapshot.contains($0) == false })
                 
                 strongSelf.collectedEvents = eventsToSend
                 InternalRepository.events = eventsToSend
             } catch {
-                print("Error while sending events to backend. Error: \(error.localizedDescription)")
+                print("Error while sending events to server. Error: \(error.localizedDescription), \(error)")
             }
         })
     }
@@ -108,7 +106,7 @@ final class InternalDataUtility: DataUtility {
 protocol DataUtility {
     var sessionId: String { get }
     
-    func configure(tenantID: String, baseUrl: URL, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval)
+    func configure(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval)
     func collect(_ object: Object)
     func generateSessionID()
     func setOptOut(_ optOut: Bool)
