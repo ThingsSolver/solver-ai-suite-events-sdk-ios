@@ -45,6 +45,7 @@ public final class EventSDKFramework {
     ///   - tenantID: The tenant identifier.
     ///   - baseUrl: The base URL for the API
     ///   - apiKey: The API key used for authentication
+    ///   - authorizationType: Type of authorization used, see `AuthorizationType` enum for options
     ///   - numberOfMaxEventsCollectedBeforeSending: The maximum number of events to collect before sending. Default is `Constants.DefaultNumberOfMaxEventsCollectedBeforeSending`.
     ///   - eventSendInterval: The interval at which events are sent. Default is `Constants.DefaultEventSendInterval`.
     public static func initialize(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval) {
