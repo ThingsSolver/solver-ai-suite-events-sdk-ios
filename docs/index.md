@@ -196,7 +196,7 @@ public static func collect(_ object: Object)
 ```
 #### Example
 ```swift
-let event = EventSDK.Object(deviceToken: "device-toke", customerId: "cusomer-id", loginStatus: true, pageType: "page-type", event: EventSDK.Event.appOpen, eventValue: "event-value", eventArguments: [["arg-key-1": "arg-val-1"], ["arg-key-2": "arg-val-2"]], language: "en")
+let event = EventSDK.Object(deviceToken: "device-token", customerId: "cusomer-id", loginStatus: true, pageType: "page-type", event: EventSDK.Event.appOpen, eventValue: "event-value", eventArguments: [["arg-key-1": "arg-val-1"], ["arg-key-2": "arg-val-2"]], language: "en", lat: 48.858093, lon: 2.294694)
 EventSDKFramework.collect(event)
 ```
 
