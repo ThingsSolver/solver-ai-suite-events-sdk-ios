@@ -7,11 +7,6 @@
 
 import Foundation
 
-public enum AuthorizationType {
-    case Bearer
-    case XApiKey
-}
-
 public final class EventSDKFramework {
     /// Default constant values
     public struct Constants {
@@ -45,16 +40,15 @@ public final class EventSDKFramework {
     ///   - tenantID: The tenant identifier.
     ///   - baseUrl: The base URL for the API
     ///   - apiKey: The API key used for authentication
-    ///   - authorizationType: Type of authorization used, see `AuthorizationType` enum for options
+    ///   - authorization: `Bearer` or  `ApiKey` struct used for authorization. See `Authorization` structs for more details
     ///   - numberOfMaxEventsCollectedBeforeSending: The maximum number of events to collect before sending. Default is `Constants.DefaultNumberOfMaxEventsCollectedBeforeSending`.
     ///   - eventSendInterval: The interval at which events are sent. Default is `Constants.DefaultEventSendInterval`.
-    public static func initialize(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval) {
+    public static func initialize(tenantID: String, baseUrl: URL, authorization: Authorization, numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval) {
         
         InternalDataUtility.shared.configure(
             tenantID: tenantID,
             baseUrl: baseUrl,
-            authorizationType: authorizationType,
-            apiKey: apiKey,
+            authorization: authorization,
             numberOfMaxEventsCollectedBeforeSending: numberOfMaxEventsCollectedBeforeSending,
             eventSendInterval: eventSendInterval,
             sessionIDRegenerateTimeInverval: Constants.DefaultSessionIDRegenerateTimeInverval

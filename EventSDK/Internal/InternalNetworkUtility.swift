@@ -27,40 +27,56 @@ final class InternalNetworkUtility: NetworkUtility {
     
     enum Endpoint: String {
         case bulk = "/bulk"
+        case login = "/api/latest/auth/login"
     }
     
     private let jsonEncoder: JSONEncoder = JSONEncoder()
+    private let jsonDecoder: JSONDecoder = JSONDecoder()
     
-    var tenantID: String?
-    var baseURL: URL?
-    var apiKey: String?
+    private var tenantID: String?
+    private var baseURL: URL?
     
-    private var authorizationType: AuthorizationType?
+    private var authorizationHeader: (key: String, value: String)?
+    private var authorization: Authorization?
+    private var retryRequestOnUnauthorizedError: Bool = true
     
     private init() {
         self.jsonEncoder.dateEncodingStrategy = .iso8601
         self.jsonEncoder.outputFormatting = .withoutEscapingSlashes
     }
     
-    func configure(tenantID: String, baseURL: URL, authorizationType: AuthorizationType, apiKey: String) {
+    func configure(tenantID: String, baseURL: URL, authorization: Authorization) {
         self.tenantID = tenantID
         self.baseURL = baseURL
-        self.apiKey = apiKey
-        self.authorizationType = authorizationType
+        self.authorization = authorization
+        
+        if let apiKeyAuthorization: ApiKey = authorization as? ApiKey {
+            self.authorizationHeader = (key: Constants.HeaderKeys.XApiKey, value: apiKeyAuthorization.key)
+        } else if authorization is Bearer {
+            Task(priority: .high, operation: { [weak self] in
+                try await self?.generateBearerToken()
+            })
+        }
     }
     
-    func post(data: InternalApiObject) async throws {
-        if let baseURL = self.baseURL {
-            let requestHeaders: [String: String] = [
-                Constants.HeaderKeys.ContentType: Constants.HeaderValues.ApplicationJson,
-                Constants.HeaderKeys.TenantId: self.tenantID ?? "",
-                (authorizationType == .Bearer ? Constants.HeaderKeys.BearerAuthorization : Constants.HeaderKeys.XApiKey): (authorizationType == .Bearer ? "Bearer \(apiKey ?? "")" : apiKey ?? "")
-            ]
+    private func generateBearerToken() async throws {
+        guard var bearerAuthorization: Bearer = self.authorization as? Bearer else { return }
+        
+        do {
+            let requestBody: [String: String] = ["username": bearerAuthorization.username, "password": bearerAuthorization.password]
             
-            let request: Request = Request(baseUrl: baseURL, endpoint: .bulk, method: .post, headers: requestHeaders, body: data)
-            _ = try await send(request)
-        } else {
-            throw RequestError.invalidURL
+            let request: Request = Request(baseUrl: bearerAuthorization.url, endpoint: .login, method: .post, headers: [Constants.HeaderKeys.ContentType: Constants.HeaderValues.ApplicationJson], body: requestBody)
+            let reponseData: Data = try await send(request)
+            let responseObject: BearerAuthorizationResponse = try self.jsonDecoder.decode(BearerAuthorizationResponse.self, from: reponseData)
+            
+            bearerAuthorization.expiryDate = Date().addingTimeInterval(responseObject.expiresIn)
+            
+            self.authorizationHeader = (key: Constants.HeaderKeys.BearerAuthorization, value: "Bearer \(responseObject.accessToken)")
+            self.authorization = bearerAuthorization
+            
+            print("Generated new Bearer token. Token: \(responseObject.accessToken), expires: \(bearerAuthorization.expiryDate)")
+        } catch {
+            print("Error while generating a Bearer token. Error: \(error.localizedDescription)")
         }
     }
     
@@ -82,7 +98,7 @@ final class InternalNetworkUtility: NetworkUtility {
         guard let response = response as? HTTPURLResponse else {
             throw RequestError.noResponse
         }
-        
+
         switch response.statusCode {
         case 200...299:
             return data
@@ -90,11 +106,56 @@ final class InternalNetworkUtility: NetworkUtility {
             throw RequestError.badRequest
         case 401:
             throw RequestError.unauthorized
+        case 500:
+            throw RequestError.internalServerError
         default:
             throw RequestError.unexpectedStatusCode
         }
     }
     
+    func post(data: InternalApiObject) async throws {
+        // Check if new bearer token needs to be created
+        if let bearerAuthorization: Bearer = authorization as? Bearer, bearerAuthorization.expiryDate <= Date() {
+            try await generateBearerToken()
+        }
+        
+        if let baseURL = self.baseURL {
+            let requestHeaders: [String: String] = [
+                Constants.HeaderKeys.ContentType: Constants.HeaderValues.ApplicationJson,
+                Constants.HeaderKeys.TenantId: self.tenantID ?? "",
+                self.authorizationHeader?.key ?? "": self.authorizationHeader?.value ?? ""
+            ]
+            
+            do {
+                let request: Request = Request(baseUrl: baseURL, endpoint: .bulk, method: .post, headers: requestHeaders, body: data)
+                _ = try await send(request)
+                
+                retryRequestOnUnauthorizedError = true
+            } catch RequestError.unauthorized {
+                if var bearerAuthorization: Bearer = authorization as? Bearer {
+                    // Force generating a new bearer token on next request
+                    bearerAuthorization.expiryDate = Date(timeIntervalSince1970: 0)
+                    self.authorization = bearerAuthorization
+                    
+                    if retryRequestOnUnauthorizedError {
+                        retryRequestOnUnauthorizedError = false // Try to resend request only once
+                        do {
+                            try await post(data: data)
+                        } catch {
+                            throw error
+                        }
+                    } else {
+                        throw RequestError.unauthorized
+                    }
+                }
+            } catch {
+                throw error
+            }
+            
+        } else {
+            throw RequestError.invalidURL
+        }
+    }
 }
 
 extension InternalNetworkUtility {
@@ -112,6 +173,7 @@ extension InternalNetworkUtility {
         case unexpectedStatusCode
         case badRequest
         case unauthorized
+        case internalServerError
         
         public var localizedDescription: String {
             switch self {
@@ -125,6 +187,8 @@ extension InternalNetworkUtility {
                 return "Server returned status 400, for example a request withot all required form data was made"
             case .unauthorized:
                 return "Got unauthorized response from server"
+            case .internalServerError:
+                return "Server returned internal server error"
             }
         }
     }
@@ -139,7 +203,7 @@ extension InternalNetworkUtility {
 }
 
 protocol NetworkUtility {
-    func configure(tenantID: String, baseURL: URL, authorizationType: AuthorizationType, apiKey: String)
+    func configure(tenantID: String, baseURL: URL, authorization: Authorization)
     func post(data: InternalApiObject) async throws
 }
 
