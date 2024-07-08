@@ -20,14 +20,30 @@ or in ObjC:
 @import EventSDK;
 ```
 
-## AuthorizationType
-The `AuthorizationType` enum defines the types of authorization used for the SDK.
+## Authorization
 
+### Bearer
+A structure representing Bearer token authorization. This struct holds the credentials and endpoint for Bearer token-based authorization.  
+
+**Properties **  
+- `username` - The username used for authentication  
+- `password` - The password used for authentication  
+- `url` - The URL endpoint for the authorization request  
+
+**Initializer**
 ```swift
-public enum AuthorizationType {
-    case Bearer
-    case XApiKey
-}
+Bearer(username: String, password: String, url: URL)
+```
+
+### API Key
+A structure representing API key authorization. This struct holds the API key used for authorization.
+
+**Properties **  
+- `key` - The API key used for authentication  
+
+**Initializer**
+```swift
+ApiKey(key: String)
 ```
 
 ## EventSDKFramework Constants
@@ -59,7 +75,7 @@ To initialize the SDK, use the initialize method with the required parameters.
 public static func initialize(
     tenantID: String, 
     baseUrl: URL, 
-    authorizationType: AuthorizationType, 
+    authorization: Authorization, 
     apiKey: String, 
     numberOfMaxEventsCollectedBeforeSending: Int = Constants.DefaultNumberOfMaxEventsCollectedBeforeSending, 
     eventSendInterval: TimeInterval = Constants.DefaultEventSendInterval
@@ -69,7 +85,7 @@ public static func initialize(
 #### Parameters
 - `tenantID` - The tenant identifier.  
 - `baseUrl` - The base URL for the API.  
-- `authorizationType` - Type of authorization used (Bearer or XApiKey).  
+- `authorization` - `Bearer` or  `ApiKey` struct used for authorization. See [`Authorization`](#authorization) structs for more details
 - `apiKey` - The API key used for authentication.  
 - `numberOfMaxEventsCollectedBeforeSending` - The maximum number of events to collect before sending.  
 - `eventSendInterval` - The interval at which events are sent.
@@ -80,7 +96,7 @@ public static func initialize(
 EventSDKFramework.initialize(
     tenantID: "your-tenant-id",
     baseUrl: URL(string: "https://api.example.com")!,
-    authorizationType: .Bearer,
+    authorization: Bearer(username: "YOUR-USERNAME", password: "PASSWORD", url: URL(string: "https://auth.example.com")!),
     apiKey: "your-api-key"
 )
 ```
@@ -90,7 +106,7 @@ If you want to change `numberOfMaxEventsCollectedBeforeSending` or `eventSendInt
 EventSDKFramework.initialize(
     tenantID: "your-tenant-id",
     baseUrl: URL(string: "https://api.example.com")!,
-    authorizationType: .Bearer,
+    authorization: ApiKey(key: "API-KEY"),
     apiKey: "your-api-key",
     numberOfMaxEventsCollectedBeforeSending: 5,
     eventSendInterval: 60
@@ -111,6 +127,8 @@ public struct Object: Codable {
     let loginStatus: Bool
     /// The type of the page being accessed.
     let pageType: String
+    /// The name of the page being accessed.
+    let pageName: String
     /// An event enum containing details about a specific event.
     let event: Event
     /// The value associated with the event.
@@ -130,13 +148,14 @@ public struct Object: Codable {
     ///   - customerId: The customer ID associated with the user.
     ///   - loginStatus: The login status of the user.
     ///   - pageType: The type of the page being accessed.
+    ///   - pageName: The name  of the page being accessed.
     ///   - event: An event enum containing details about a specific event.
     ///   - eventValue: The value associated with the event.
     ///   - eventArguments: A collection of key-value pairs providing additional arguments for the event.
     ///   - language: The language preference of the user.
     ///   - lat: An optional representing the latitude coordinate. Default value is `nil`
     ///   - lon: An optional representing the longitude coordinate. Default value is `nil`
-    public init(deviceToken: String, customerId: String, loginStatus: Bool, pageType: String, event: Event, eventValue: String, eventArguments: [[String : String]], language: String, lat: Double? = nil, lon: Double? = nil) {
+    public init(deviceToken: String, customerId: String, loginStatus: Bool, pageType: String, pageName: String, event: Event, eventValue: String, eventArguments: [[String : String]], language: String, lat: Double? = nil, lon: Double? = nil) {
         self.deviceToken = deviceToken
         self.customerId = customerId
         self.loginStatus = loginStatus
@@ -151,36 +170,37 @@ public struct Object: Codable {
 }
 ```
 #### Properties
-`deviceToken` The device token associated with the device.  
-`customerId` The customer ID associated with the user.  
-`loginStatus` The login status of the user.  
-`pageType` The type of the page being accessed.  
-`event` An Event enum containing details about a specific event.  
-`eventValue` The value associated with the event.  
-`eventArguments` A collection of key-value pairs providing additional arguments for the event.  
-`language` The language preference of the user.  
-`lat` An optional Double representing the latitude coordinate. Default value is nil.  
-`lon` An optional Double representing the longitude coordinate. Default value is nil.  
+- `deviceToken` - The device token associated with the device.  
+- `customerId` - The customer ID associated with the user.  
+- `loginStatus` - The login status of the user.  
+- `pageType` - The type of the page being accessed.  
+- `pageName` - The name  of the page being accessed.
+- `event` - An Event enum containing details about a specific event.  
+- `eventValue` - The value associated with the event.  
+- `eventArguments` - A collection of key-value pairs providing additional arguments for the event.  
+- `language` - The language preference of the user.  
+- `lat` - An optional Double representing the latitude coordinate. Default value is nil.  
+- `lon` - An optional Double representing the longitude coordinate. Default value is nil. 
 
 ### Event
 The `Event` enum represents different types of events that can be tracked using the SDK. Each event has a corresponding string value, making it easy to encode and decode for various uses, such as logging or sending to a server.  
   
 Default provided Event enums are:  
-- `appOpen` Represents the event when an app is opened.  
-- `appClosed` Represents the event when an app is closed.  
-- `appCrashed` Represents the event when an app crashes.  
-- `appUpdate` Represents the event when an app is updated.  
-- `fingerScan` Represents the event of a finger scan.  
-- `faceScan` Represents the event of a face scan.  
-- `buttonTrigger` Represents the event when a button is triggered.  
-- `login` Represents the event of a user login.  
-- `logout` Represents the event of a user logout.  
-- `engagementServed` Represents the event when an engagement is served.  
-- `transaction` Represents the event of a transaction.  
-- `productView` Represents the event when a product is viewed.  
-- `pageView` Represents the event when a page is viewed.  
-- `materialDownload` Represents the event when material is downloaded.  
-- `searchQuery` Represents the event of a search query.  
+- `appOpen` - Represents the event when an app is opened.  
+- `appClosed` - Represents the event when an app is closed.  
+- `appCrashed` - Represents the event when an app crashes.  
+- `appUpdate` - Represents the event when an app is updated.  
+- `fingerScan` - Represents the event of a finger scan.  
+- `faceScan` - Represents the event of a face scan.  
+- `buttonTrigger` - Represents the event when a button is triggered.  
+- `login` - Represents the event of a user login.  
+- `logout` - Represents the event of a user logout.  
+- `engagementServed` - Represents the event when an engagement is served.  
+- `transaction` - Represents the event of a transaction.  
+- `productView` - Represents the event when a product is viewed.  
+- `pageView` - Represents the event when a page is viewed.  
+- `materialDownload` - Represents the event when material is downloaded.  
+- `searchQuery` - Represents the event of a search query.  
 
 #### Using Custom Value Events
 You can also create an Event instance using a custom string value.

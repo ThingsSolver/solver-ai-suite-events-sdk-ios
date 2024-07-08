@@ -1,7 +1,7 @@
 site_name: EventSDK
 theme:
   name: material
-  logo: assets/asee.png
+  logo: assets/TS_logo.png
   language: en
   features:
     - navigation.tabs
@@ -32,9 +32,9 @@ theme:
 extra:
   social:
     - icon: fontawesome/solid/globe
-      link: https://asee.io/
+      link: https://thingsolver.com
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/company/asseco-south-eastern-europe/
+      link: https://www.linkedin.com/company/things-solver/
       
 markdown_extensions:
   - pymdownx.highlight:
@@ -54,5 +54,5 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
 copyright: |
-  &copy; 2024 <a href="https://asee.io"  target="_blank" rel="noopener">Asseco South Eastern Europe</a>
+  &copy; 2024 <a href="https://thingsolver.com"  target="_blank" rel="noopener">Things Solver</a>
 

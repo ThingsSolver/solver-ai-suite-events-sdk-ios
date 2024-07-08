@@ -10,7 +10,7 @@ import Foundation
 final class InternalRepository {
     private struct Constants {
         struct UserDefaultKeys {
-            static let EventsKey: String = "com.asseco.EventSDK.user_defaults.events"
+            static let EventsKey: String = "com.thingssolver.EventSDK.user_defaults.events"
         }
     }
     
