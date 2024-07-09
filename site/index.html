@@ -84,7 +84,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="EventSDK" class="md-header__button md-logo" aria-label="EventSDK" data-md-component="logo">
       
-  <img src="assets/asee.png" alt="logo">
+  <img src="assets/TS_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -238,7 +238,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="EventSDK" class="md-nav__button md-logo" aria-label="EventSDK" data-md-component="logo">
       
-  <img src="assets/asee.png" alt="logo">
+  <img src="assets/TS_logo.png" alt="logo">
 
     </a>
     EventSDK
@@ -332,11 +332,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#authorizationtype" class="md-nav__link">
+  <a href="#authorization" class="md-nav__link">
     <span class="md-ellipsis">
-      AuthorizationType
+      Authorization
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bearer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bearer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -588,25 +612,35 @@
 or in ObjC:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">@import</span><span class="w"> </span><span class="n">EventSDK</span><span class="p">;</span>
 </code></pre></div></p>
-<h2 id="authorizationtype">AuthorizationType</h2>
-<p>The <code>AuthorizationType</code> enum defines the types of authorization used for the SDK.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">AuthorizationType</span> <span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">case</span> <span class="n">Bearer</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">case</span> <span class="n">XApiKey</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
-</code></pre></div>
+<h2 id="authorization">Authorization</h2>
+<h3 id="bearer">Bearer</h3>
+<p>A structure representing Bearer token authorization. This struct holds the credentials and endpoint for Bearer token-based authorization.  </p>
+<p><strong>Properties </strong><br />
+- <code>username</code> - The username used for authentication<br />
+- <code>password</code> - The password used for authentication<br />
+- <code>url</code> - The URL endpoint for the authorization request  </p>
+<p><strong>Initializer</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Bearer</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">URL</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="api-key">API Key</h3>
+<p>A structure representing API key authorization. This struct holds the API key used for authorization.</p>
+<p><strong>Properties </strong><br />
+- <code>key</code> - The API key used for authentication  </p>
+<p><strong>Initializer</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ApiKey</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span>
+</code></pre></div></p>
 <h2 id="eventsdkframework-constants">EventSDKFramework Constants</h2>
 <p>The Constants struct within the EventSDKFramework contains default values for various configuration parameters.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">Constants</span> <span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="c1">/// The default number of maximum events collected before sending, default is 30.</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultNumberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">30</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="c1">/// The default event send interval, default is 3 minutes.</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultEventSendInterval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">60</span> <span class="c1">// 3 minutes</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="c1">/// The default interval after which a new sessionID is generated, default is 30 minutes.</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultSessionIDRegenerateTimeInverval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mi">60</span> <span class="c1">// 30 minutes</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">Constants</span> <span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="c1">/// The default number of maximum events collected before sending, default is 30.</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultNumberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">30</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="c1">/// The default event send interval, default is 3 minutes.</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultEventSendInterval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">60</span> <span class="c1">// 3 minutes</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="c1">/// The default interval after which a new sessionID is generated, default is 30 minutes.</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">DefaultSessionIDRegenerateTimeInverval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mi">60</span> <span class="c1">// 30 minutes</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
 </code></pre></div>
 <h4 id="properties">Properties</h4>
 <ul>
@@ -616,149 +650,155 @@ or in ObjC:
 </ul>
 <h2 id="initialization">Initialization</h2>
 <p>To initialize the SDK, use the initialize method with the required parameters.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">initialize</span><span class="p">(</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">tenantID</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> 
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">baseUrl</span><span class="p">:</span> <span class="n">URL</span><span class="p">,</span> 
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">authorizationType</span><span class="p">:</span> <span class="n">AuthorizationType</span><span class="p">,</span> 
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> 
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">numberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="n">Constants</span><span class="p">.</span><span class="n">DefaultNumberOfMaxEventsCollectedBeforeSending</span><span class="p">,</span> 
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">eventSendInterval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="n">Constants</span><span class="p">.</span><span class="n">DefaultEventSendInterval</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">initialize</span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">tenantID</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> 
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">baseUrl</span><span class="p">:</span> <span class="n">URL</span><span class="p">,</span> 
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">authorization</span><span class="p">:</span> <span class="n">Authorization</span><span class="p">,</span> 
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> 
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">numberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="n">Constants</span><span class="p">.</span><span class="n">DefaultNumberOfMaxEventsCollectedBeforeSending</span><span class="p">,</span> 
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">eventSendInterval</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="p">=</span> <span class="n">Constants</span><span class="p">.</span><span class="n">DefaultEventSendInterval</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">)</span>
 </code></pre></div>
 <h4 id="parameters">Parameters</h4>
 <ul>
 <li><code>tenantID</code> - The tenant identifier.  </li>
 <li><code>baseUrl</code> - The base URL for the API.  </li>
-<li><code>authorizationType</code> - Type of authorization used (Bearer or XApiKey).  </li>
+<li><code>authorization</code> - <code>Bearer</code> or  <code>ApiKey</code> struct used for authorization. See <a href="#authorization"><code>Authorization</code></a> structs for more details</li>
 <li><code>apiKey</code> - The API key used for authentication.  </li>
 <li><code>numberOfMaxEventsCollectedBeforeSending</code> - The maximum number of events to collect before sending.  </li>
 <li><code>eventSendInterval</code> - The interval at which events are sent.</li>
 </ul>
 <h4 id="example">Example</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">tenantID</span><span class="p">:</span> <span class="s">&quot;your-tenant-id&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">baseUrl</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;https://api.example.com&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">authorizationType</span><span class="p">:</span> <span class="p">.</span><span class="n">Bearer</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="s">&quot;your-api-key&quot;</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span>
-</code></pre></div>
-<p>If you want to change <code>numberOfMaxEventsCollectedBeforeSending</code> or <code>eventSendInterval</code> pass your custom value to <code>initialize</code> method:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">tenantID</span><span class="p">:</span> <span class="s">&quot;your-tenant-id&quot;</span><span class="p">,</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">baseUrl</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;https://api.example.com&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">authorizationType</span><span class="p">:</span> <span class="p">.</span><span class="n">Bearer</span><span class="p">,</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="s">&quot;your-api-key&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">numberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">eventSendInterval</span><span class="p">:</span> <span class="mi">60</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">authorization</span><span class="p">:</span> <span class="n">Bearer</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="s">&quot;YOUR-USERNAME&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="s">&quot;PASSWORD&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;https://auth.example.com&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">),</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="s">&quot;your-api-key&quot;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">)</span>
+</code></pre></div>
+<p>If you want to change <code>numberOfMaxEventsCollectedBeforeSending</code> or <code>eventSendInterval</code> pass your custom value to <code>initialize</code> method:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">tenantID</span><span class="p">:</span> <span class="s">&quot;your-tenant-id&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">baseUrl</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;https://api.example.com&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">authorization</span><span class="p">:</span> <span class="n">ApiKey</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="s">&quot;API-KEY&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">apiKey</span><span class="p">:</span> <span class="s">&quot;your-api-key&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">numberOfMaxEventsCollectedBeforeSending</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">eventSendInterval</span><span class="p">:</span> <span class="mi">60</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">)</span>
 </code></pre></div></p>
 <h2 id="collecting-events">Collecting Events</h2>
 <h3 id="object-struct">Object struct</h3>
 <p>The <code>Object</code> struct represents an object used for sending events to the backend with various properties related to device and user information, login status, page type, event details, and other relevant data. It conforms to the <code>Codable</code> protocol, making it easy to encode and decode.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">Object</span><span class="p">:</span> <span class="n">Codable</span> <span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="c1">/// The device token associated with the device.</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="kd">let</span> <span class="nv">deviceToken</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="c1">/// The customer ID associated with the user.</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="kd">let</span> <span class="nv">customerId</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="c1">/// The login status of the user.</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="kd">let</span> <span class="nv">loginStatus</span><span class="p">:</span> <span class="nb">Bool</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="c1">/// The type of the page being accessed.</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="kd">let</span> <span class="nv">pageType</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="c1">/// An event enum containing details about a specific event.</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="kd">let</span> <span class="nv">event</span><span class="p">:</span> <span class="n">Event</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="c1">/// The value associated with the event.</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="kd">let</span> <span class="nv">eventValue</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="c1">/// A collection of key-value pairs providing additional arguments for the event.</span>
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="kd">let</span> <span class="nv">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">:</span> <span class="nb">String</span><span class="p">]]</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="c1">/// The language preference of the user.</span>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="kd">let</span> <span class="nv">language</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="c1">/// An optional representing the latitude coordinate. Default value is `nil`</span>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="kd">let</span> <span class="nv">lat</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="c1">/// An optional representing the longitude coordinate. Default value is `nil`</span>
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>    <span class="kd">let</span> <span class="nv">lon</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="c1">/// A struct representing an object used for sending events to the backend with various properties related to device and user information, login status, page type, event details, and other relevant data.</span>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>    <span class="c1">/// - Parameters:</span>
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>    <span class="c1">///   - deviceToken: The device token associated with the device.</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>    <span class="c1">///   - customerId: The customer ID associated with the user.</span>
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="c1">///   - loginStatus: The login status of the user.</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>    <span class="c1">///   - pageType: The type of the page being accessed.</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>    <span class="c1">///   - event: An event enum containing details about a specific event.</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>    <span class="c1">///   - eventValue: The value associated with the event.</span>
-<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>    <span class="c1">///   - eventArguments: A collection of key-value pairs providing additional arguments for the event.</span>
-<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>    <span class="c1">///   - language: The language preference of the user.</span>
-<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>    <span class="c1">///   - lat: An optional representing the latitude coordinate. Default value is `nil`</span>
-<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>    <span class="c1">///   - lon: An optional representing the longitude coordinate. Default value is `nil`</span>
-<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>    <span class="kd">public</span> <span class="kd">init</span><span class="p">(</span><span class="n">deviceToken</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">customerId</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">loginStatus</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">pageType</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">,</span> <span class="n">eventValue</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="nb">String</span> <span class="p">:</span> <span class="nb">String</span><span class="p">]],</span> <span class="n">language</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span>
-<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">deviceToken</span> <span class="p">=</span> <span class="n">deviceToken</span>
-<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">customerId</span> <span class="p">=</span> <span class="n">customerId</span>
-<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">loginStatus</span> <span class="p">=</span> <span class="n">loginStatus</span>
-<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">pageType</span> <span class="p">=</span> <span class="n">pageType</span>
-<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">event</span> <span class="p">=</span> <span class="n">event</span>
-<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">eventValue</span> <span class="p">=</span> <span class="n">eventValue</span>
-<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">eventArguments</span> <span class="p">=</span> <span class="n">eventArguments</span>
-<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">language</span> <span class="p">=</span> <span class="n">language</span>
-<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">lat</span> <span class="p">=</span> <span class="n">lat</span>
-<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">lon</span> <span class="p">=</span> <span class="n">lon</span>
-<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a>    <span class="p">}</span>
-<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">Object</span><span class="p">:</span> <span class="n">Codable</span> <span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="c1">/// The device token associated with the device.</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="kd">let</span> <span class="nv">deviceToken</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="c1">/// The customer ID associated with the user.</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="kd">let</span> <span class="nv">customerId</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="c1">/// The login status of the user.</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="kd">let</span> <span class="nv">loginStatus</span><span class="p">:</span> <span class="nb">Bool</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="c1">/// The type of the page being accessed.</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="kd">let</span> <span class="nv">pageType</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="c1">/// The name of the page being accessed.</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="kd">let</span> <span class="nv">pageName</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="c1">/// An event enum containing details about a specific event.</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="kd">let</span> <span class="nv">event</span><span class="p">:</span> <span class="n">Event</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="c1">/// The value associated with the event.</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    <span class="kd">let</span> <span class="nv">eventValue</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="c1">/// A collection of key-value pairs providing additional arguments for the event.</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    <span class="kd">let</span> <span class="nv">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">:</span> <span class="nb">String</span><span class="p">]]</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    <span class="c1">/// The language preference of the user.</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>    <span class="kd">let</span> <span class="nv">language</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="c1">/// An optional representing the latitude coordinate. Default value is `nil`</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>    <span class="kd">let</span> <span class="nv">lat</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="c1">/// An optional representing the longitude coordinate. Default value is `nil`</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    <span class="kd">let</span> <span class="nv">lon</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>    <span class="c1">/// A struct representing an object used for sending events to the backend with various properties related to device and user information, login status, page type, event details, and other relevant data.</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    <span class="c1">/// - Parameters:</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="c1">///   - deviceToken: The device token associated with the device.</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    <span class="c1">///   - customerId: The customer ID associated with the user.</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="c1">///   - loginStatus: The login status of the user.</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="c1">///   - pageType: The type of the page being accessed.</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>    <span class="c1">///   - pageName: The name  of the page being accessed.</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="c1">///   - event: An event enum containing details about a specific event.</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>    <span class="c1">///   - eventValue: The value associated with the event.</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>    <span class="c1">///   - eventArguments: A collection of key-value pairs providing additional arguments for the event.</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>    <span class="c1">///   - language: The language preference of the user.</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>    <span class="c1">///   - lat: An optional representing the latitude coordinate. Default value is `nil`</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>    <span class="c1">///   - lon: An optional representing the longitude coordinate. Default value is `nil`</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>    <span class="kd">public</span> <span class="kd">init</span><span class="p">(</span><span class="n">deviceToken</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">customerId</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">loginStatus</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">pageType</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">pageName</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">,</span> <span class="n">eventValue</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="nb">String</span> <span class="p">:</span> <span class="nb">String</span><span class="p">]],</span> <span class="n">language</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">deviceToken</span> <span class="p">=</span> <span class="n">deviceToken</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">customerId</span> <span class="p">=</span> <span class="n">customerId</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">loginStatus</span> <span class="p">=</span> <span class="n">loginStatus</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">pageType</span> <span class="p">=</span> <span class="n">pageType</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">event</span> <span class="p">=</span> <span class="n">event</span>
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">eventValue</span> <span class="p">=</span> <span class="n">eventValue</span>
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">eventArguments</span> <span class="p">=</span> <span class="n">eventArguments</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">language</span> <span class="p">=</span> <span class="n">language</span>
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">lat</span> <span class="p">=</span> <span class="n">lat</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>        <span class="kc">self</span><span class="p">.</span><span class="n">lon</span> <span class="p">=</span> <span class="n">lon</span>
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>    <span class="p">}</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a><span class="p">}</span>
 </code></pre></div>
 <h4 id="properties_1">Properties</h4>
-<p><code>deviceToken</code> The device token associated with the device.<br />
-<code>customerId</code> The customer ID associated with the user.<br />
-<code>loginStatus</code> The login status of the user.<br />
-<code>pageType</code> The type of the page being accessed.<br />
-<code>event</code> An Event enum containing details about a specific event.<br />
-<code>eventValue</code> The value associated with the event.<br />
-<code>eventArguments</code> A collection of key-value pairs providing additional arguments for the event.<br />
-<code>language</code> The language preference of the user.<br />
-<code>lat</code> An optional Double representing the latitude coordinate. Default value is nil.<br />
-<code>lon</code> An optional Double representing the longitude coordinate. Default value is nil.  </p>
+<ul>
+<li><code>deviceToken</code> - The device token associated with the device.  </li>
+<li><code>customerId</code> - The customer ID associated with the user.  </li>
+<li><code>loginStatus</code> - The login status of the user.  </li>
+<li><code>pageType</code> - The type of the page being accessed.  </li>
+<li><code>pageName</code> - The name  of the page being accessed.</li>
+<li><code>event</code> - An Event enum containing details about a specific event.  </li>
+<li><code>eventValue</code> - The value associated with the event.  </li>
+<li><code>eventArguments</code> - A collection of key-value pairs providing additional arguments for the event.  </li>
+<li><code>language</code> - The language preference of the user.  </li>
+<li><code>lat</code> - An optional Double representing the latitude coordinate. Default value is nil.  </li>
+<li><code>lon</code> - An optional Double representing the longitude coordinate. Default value is nil. </li>
+</ul>
 <h3 id="event">Event</h3>
 <p>The <code>Event</code> enum represents different types of events that can be tracked using the SDK. Each event has a corresponding string value, making it easy to encode and decode for various uses, such as logging or sending to a server.  </p>
 <p>Default provided Event enums are:<br />
-- <code>appOpen</code> Represents the event when an app is opened.<br />
-- <code>appClosed</code> Represents the event when an app is closed.<br />
-- <code>appCrashed</code> Represents the event when an app crashes.<br />
-- <code>appUpdate</code> Represents the event when an app is updated.<br />
-- <code>fingerScan</code> Represents the event of a finger scan.<br />
-- <code>faceScan</code> Represents the event of a face scan.<br />
-- <code>buttonTrigger</code> Represents the event when a button is triggered.<br />
-- <code>login</code> Represents the event of a user login.<br />
-- <code>logout</code> Represents the event of a user logout.<br />
-- <code>engagementServed</code> Represents the event when an engagement is served.<br />
-- <code>transaction</code> Represents the event of a transaction.<br />
-- <code>productView</code> Represents the event when a product is viewed.<br />
-- <code>pageView</code> Represents the event when a page is viewed.<br />
-- <code>materialDownload</code> Represents the event when material is downloaded.<br />
-- <code>searchQuery</code> Represents the event of a search query.  </p>
+- <code>appOpen</code> - Represents the event when an app is opened.<br />
+- <code>appClosed</code> - Represents the event when an app is closed.<br />
+- <code>appCrashed</code> - Represents the event when an app crashes.<br />
+- <code>appUpdate</code> - Represents the event when an app is updated.<br />
+- <code>fingerScan</code> - Represents the event of a finger scan.<br />
+- <code>faceScan</code> - Represents the event of a face scan.<br />
+- <code>buttonTrigger</code> - Represents the event when a button is triggered.<br />
+- <code>login</code> - Represents the event of a user login.<br />
+- <code>logout</code> - Represents the event of a user logout.<br />
+- <code>engagementServed</code> - Represents the event when an engagement is served.<br />
+- <code>transaction</code> - Represents the event of a transaction.<br />
+- <code>productView</code> - Represents the event when a product is viewed.<br />
+- <code>pageView</code> - Represents the event when a page is viewed.<br />
+- <code>materialDownload</code> - Represents the event when material is downloaded.<br />
+- <code>searchQuery</code> - Represents the event of a search query.  </p>
 <h4 id="using-custom-value-events">Using Custom Value Events</h4>
 <p>You can also create an Event instance using a custom string value.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">Event</span><span class="p">(</span><span class="n">rawValue</span><span class="p">:</span> <span class="s">&quot;customEventValue&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">Event</span><span class="p">(</span><span class="n">rawValue</span><span class="p">:</span> <span class="s">&quot;customEventValue&quot;</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="sending-object-struct-to-sdk">Sending Object struct to SDK</h3>
 <p>Use the <code>collect</code> method to collect an object for processing or storage.  </p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">collect</span><span class="p">(</span><span class="kc">_</span> <span class="n">object</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">collect</span><span class="p">(</span><span class="kc">_</span> <span class="n">object</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="example_1">Example</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">let</span> <span class="nv">event</span> <span class="p">=</span> <span class="n">EventSDK</span><span class="p">.</span><span class="n">Object</span><span class="p">(</span><span class="n">deviceToken</span><span class="p">:</span> <span class="s">&quot;device-token&quot;</span><span class="p">,</span> <span class="n">customerId</span><span class="p">:</span> <span class="s">&quot;cusomer-id&quot;</span><span class="p">,</span> <span class="n">loginStatus</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">pageType</span><span class="p">:</span> <span class="s">&quot;page-type&quot;</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EventSDK</span><span class="p">.</span><span class="n">Event</span><span class="p">.</span><span class="n">appOpen</span><span class="p">,</span> <span class="n">eventValue</span><span class="p">:</span> <span class="s">&quot;event-value&quot;</span><span class="p">,</span> <span class="n">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="s">&quot;arg-key-1&quot;</span><span class="p">:</span> <span class="s">&quot;arg-val-1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;arg-key-2&quot;</span><span class="p">:</span> <span class="s">&quot;arg-val-2&quot;</span><span class="p">]],</span> <span class="n">language</span><span class="p">:</span> <span class="s">&quot;en&quot;</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="mf">48.858093</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="mf">2.294694</span><span class="p">)</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">collect</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">let</span> <span class="nv">event</span> <span class="p">=</span> <span class="n">EventSDK</span><span class="p">.</span><span class="n">Object</span><span class="p">(</span><span class="n">deviceToken</span><span class="p">:</span> <span class="s">&quot;device-token&quot;</span><span class="p">,</span> <span class="n">customerId</span><span class="p">:</span> <span class="s">&quot;cusomer-id&quot;</span><span class="p">,</span> <span class="n">loginStatus</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">pageType</span><span class="p">:</span> <span class="s">&quot;page-type&quot;</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EventSDK</span><span class="p">.</span><span class="n">Event</span><span class="p">.</span><span class="n">appOpen</span><span class="p">,</span> <span class="n">eventValue</span><span class="p">:</span> <span class="s">&quot;event-value&quot;</span><span class="p">,</span> <span class="n">eventArguments</span><span class="p">:</span> <span class="p">[[</span><span class="s">&quot;arg-key-1&quot;</span><span class="p">:</span> <span class="s">&quot;arg-val-1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;arg-key-2&quot;</span><span class="p">:</span> <span class="s">&quot;arg-val-2&quot;</span><span class="p">]],</span> <span class="n">language</span><span class="p">:</span> <span class="s">&quot;en&quot;</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="mf">48.858093</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="mf">2.294694</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">collect</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="session-management">Session Management</h2>
 <h3 id="opt-out-control">Opt-Out Control</h3>
 <p>Control whether the user has opted out of data collection. Setting this value to <code>true</code> disables all event collecting.</p>
 <h4 id="example_2">Example</h4>
 <p>To disable user data collection:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">optOut</span> <span class="p">=</span> <span class="kc">true</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">optOut</span> <span class="p">=</span> <span class="kc">true</span>
 </code></pre></div></p>
 <h3 id="user-session-id">User Session ID</h3>
 <p>New user session ID is generated every 30 minutes.</p>
 <h4 id="example_3">Example</h4>
 <p>To retrieve the current session ID:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">sessionID</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">sessionID</span>
 </code></pre></div></p>
 <p>If you want to manually generate new session ID before 30 minutes have expired:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">generateSessionID</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">EventSDKFramework</span><span class="p">.</span><span class="n">generateSessionID</span><span class="p">()</span>
 </code></pre></div></p>
 
 
@@ -797,7 +837,7 @@ or in ObjC:
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      &copy; 2024 <a href="https://asee.io"  target="_blank" rel="noopener">Asseco South Eastern Europe</a>
+      &copy; 2024 <a href="https://thingsolver.com"  target="_blank" rel="noopener">Things Solver</a>
 
     </div>
   
@@ -818,7 +858,7 @@ or in ObjC:
       
       
     
-    <a href="https://asee.io/" target="_blank" rel="noopener" title="asee.io" class="md-social__link">
+    <a href="https://thingsolver.com" target="_blank" rel="noopener" title="thingsolver.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.4c2.2 20.4 3.3 41.8 3.3 64zm28.8-64h123.1c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6 78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7 10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5 11.6 26 20.9 58.2 27 94.7zm-209 0H18.6c30-74.1 93.6-130.9 172-151.6-25.5 34.2-45.3 87.7-55.3 151.6zM8.1 192h123.1c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zm186.6 254.6c-11.6-26-20.9-58.2-27-94.6h176.6c-6.1 36.4-15.5 68.6-27 94.6-10.5 23.6-22.2 40.7-33.5 51.5-11.2 10.7-20.5 13.9-27.8 13.9s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6-78.4-20.7-142-77.5-172-151.6h116.7zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6 25.5-34.2 45.2-87.7 55.3-151.6h116.6z"/></svg>
     </a>
   
@@ -829,7 +869,7 @@ or in ObjC:
       
       
     
-    <a href="https://www.linkedin.com/company/asseco-south-eastern-europe/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+    <a href="https://www.linkedin.com/company/things-solver/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
     </a>
   
