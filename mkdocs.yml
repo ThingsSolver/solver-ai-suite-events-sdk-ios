@@ -1,0 +1,58 @@
+site_name: EventSDK
+theme:
+  name: material
+  logo: assets/TS_logo.png
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+      primary: light blue
+      accent: white
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+      primary: light blue
+      accent: white
+
+
+
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://thingsolver.com
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/things-solver/
+      
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+copyright: |
+  &copy; 2024 <a href="https://thingsolver.com"  target="_blank" rel="noopener">Things Solver</a>
+
