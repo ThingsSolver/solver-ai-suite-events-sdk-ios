@@ -33,6 +33,7 @@ struct InternalObject: Codable, Equatable {
         case customerId = "customer_id"
         case loginStatus = "login_status"
         case pageType = "page_type"
+        case pageName = "page_name"
         case event
         case eventValue = "event_value"
         case eventArguments = "event_arguments"
@@ -54,7 +55,8 @@ struct InternalObject: Codable, Equatable {
         try container.encode(publicObject.deviceToken, forKey: .deviceToken)
         try container.encode(publicObject.customerId, forKey: .customerId)
         try container.encode(publicObject.loginStatus, forKey: .loginStatus)
-        try container.encode(publicObject.pageType, forKey: .customerId)
+        try container.encode(publicObject.pageName, forKey: .pageName)
+        try container.encode(publicObject.pageType, forKey: .pageType)
         try container.encode(publicObject.event, forKey: .event)
         try container.encode(publicObject.eventValue, forKey: .eventValue)
         try container.encode(publicObject.language, forKey: .language)
@@ -85,6 +87,7 @@ struct InternalObject: Codable, Equatable {
         let customerId = try container.decode(String.self, forKey: .customerId)
         let loginStatus = try container.decode(Bool.self, forKey: .loginStatus)
         let pageType = try container.decode(String.self, forKey: .pageType)
+        let pageName = try container.decode(String.self, forKey: .pageName)
         let event = try container.decode(Event.self, forKey: .event)
         let eventValue = try container.decode(String.self, forKey: .eventValue)
         let language = try container.decode(String.self, forKey: .language)
@@ -92,7 +95,7 @@ struct InternalObject: Codable, Equatable {
         let lat = try container.decode(Double.self, forKey: .lat)
         let lon = try container.decode(Double.self, forKey: .lat)
         
-        self.publicObject = Object(deviceToken: deviceToken, customerId: customerId, loginStatus: loginStatus, pageType: pageType, event: event, eventValue: eventValue, eventArguments: eventArguments, language: language, lat: lat, lon: lon)
+        self.publicObject = Object(deviceToken: deviceToken, customerId: customerId, loginStatus: loginStatus, pageType: pageType, pageName: pageName, event: event, eventValue: eventValue, eventArguments: eventArguments, language: language, lat: lat, lon: lon)
     }
     
     static func == (lhs: InternalObject, rhs: InternalObject) -> Bool {

@@ -42,11 +42,11 @@ final class InternalDataUtility: DataUtility {
         self.collectedEvents = InternalRepository.events
     }
     
-    func configure(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval) {
+    func configure(tenantID: String, baseUrl: URL, authorization: Authorization, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval) {
         self.numberOfMaxEventsCollectedBeforeSending = numberOfMaxEventsCollectedBeforeSending
         self.sessionIDRegenerateTimeInverval = sessionIDRegenerateTimeInverval
         
-        InternalNetworkUtility.shared.configure(tenantID: tenantID, baseURL: baseUrl, authorizationType: authorizationType, apiKey: apiKey)
+        InternalNetworkUtility.shared.configure(tenantID: tenantID, baseURL: baseUrl, authorization: authorization)
         
         UIDevice.current.isBatteryMonitoringEnabled = true // Enables battery monitoring
         
@@ -106,7 +106,7 @@ final class InternalDataUtility: DataUtility {
 protocol DataUtility {
     var sessionId: String { get }
     
-    func configure(tenantID: String, baseUrl: URL, authorizationType: AuthorizationType, apiKey: String, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval)
+    func configure(tenantID: String, baseUrl: URL, authorization: Authorization, numberOfMaxEventsCollectedBeforeSending: Int, eventSendInterval: TimeInterval, sessionIDRegenerateTimeInverval: TimeInterval)
     func collect(_ object: Object)
     func generateSessionID()
     func setOptOut(_ optOut: Bool)
